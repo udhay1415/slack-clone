@@ -19,7 +19,7 @@ class Login extends Component {
       this.setState({ loading: true, errors: [] });
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(res => {
         console.log(res);
-        this.setState({ loading: false });
+        this.setState({ loading: false, email: '', password: '' });
       }).catch(err => {
         console.log(err);
         this.setState({ loading: false });
@@ -64,7 +64,7 @@ class Login extends Component {
         <Grid.Column style={{ maxWidth: 400 }}>
           <Header as="h2" icon color="black" textAlign="center">
             <Icon name="chat" color="teal" />
-            Log in
+            Log in to MAD Chat
           </Header>
           <Form size="small" onSubmit={this.submitHandler}>
             <Segment>

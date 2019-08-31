@@ -93,7 +93,7 @@ class Signup extends Component {
         <Grid.Column style={{ maxWidth: 400 }}>
           <Header as="h2" icon color="black" textAlign="center">
             <Icon name="chat" color="teal" />
-            Sign up
+            Sign up to MAD Chat
           </Header>
           <Form size="small" onSubmit={this.submitHandler}>
             <Segment>
