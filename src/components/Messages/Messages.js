@@ -7,7 +7,7 @@ import MessageHeader from './MessageHeader';
 import MessageForm from './MessageForm';
 
 class Messages extends React.Component {
-  state = { messagesRef: firebase.database().ref('messages'), user: this.props.user, currentChannel: this.props.currentChannel, messages: '', messagesLoading: true, numUniqueUsers: '', searchTerm: '', searchResults: [] }
+  state = { messagesRef: firebase.database().ref('messages'), user: this.props.user, currentChannel: this.props.currentChannel, messages: '', messagesLoading: true, numUniqueUsers: '', searchTerm: '', searchResults: [], searchLoading: false }
   
   componentDidMount() {
     const { currentChannel, user } = this.state;
@@ -54,7 +54,7 @@ class Messages extends React.Component {
   }
   
   handleChange = (event) => {
-    this.setState({ searchTerm: event.target.value }, () => this.handleSearch());
+    this.setState({ searchTerm: event.target.value, searchLoading: true }, () => this.handleSearch());
   }
   
   handleSearch = () => {
@@ -70,16 +70,20 @@ class Messages extends React.Component {
       return acc;
     }, []);
     this.setState({ searchResults });
+    setTimeout(() => {
+      this.setState({ searchLoading: false });
+    }, 1000)
   }
   
   render() {
-    const { messages, messagesRef, user, currentChannel, numUniqueUsers, searchTerm, searchResults } = this.state;
+    const { messages, messagesRef, user, currentChannel, numUniqueUsers, searchTerm, searchResults, searchLoading } = this.state;
     return (
       <React.Fragment>
         <MessageHeader 
           currentChannel={currentChannel}
           numUniqueUsers={numUniqueUsers}
           handleChange={this.handleChange}
+          searchLoading={searchLoading}
         />
 
         <Segment>

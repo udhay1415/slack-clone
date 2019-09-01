@@ -18,6 +18,7 @@ class MessageHeader extends React.Component {
         <Header floated="right">
           <Input
             onChange={this.props.handleChange}
+            loading={this.props.searchLoading}
             size="mini"
             icon="search"
             name="searchTerm"
