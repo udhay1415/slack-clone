@@ -7,7 +7,7 @@ import MessageHeader from './MessageHeader';
 import MessageForm from './MessageForm';
 
 class Messages extends React.Component {
-  state = { messagesRef: firebase.database().ref('messages'), user: this.props.user, currentChannel: this.props.currentChannel, messages: '', messagesLoading: true, numUniqueUsers: '', searchTerm: '' }
+  state = { messagesRef: firebase.database().ref('messages'), user: this.props.user, currentChannel: this.props.currentChannel, messages: '', messagesLoading: true, numUniqueUsers: '', searchTerm: '', searchResults: [] }
   
   componentDidMount() {
     const { currentChannel, user } = this.state;
@@ -42,7 +42,6 @@ class Messages extends React.Component {
   }
   
   displayMessages = messages => {
-    console.log('From display message', messages);
     return (
       messages.length > 0 && messages.map(message => (
         <Message 
@@ -51,15 +50,30 @@ class Messages extends React.Component {
           user={this.state.user}
         />
       ))
-    )
+    )  
   }
   
   handleChange = (event) => {
-    this.setState({ searchTerm: event.target.value });
+    this.setState({ searchTerm: event.target.value }, () => this.handleSearch());
+  }
+  
+  handleSearch = () => {
+    const channelMessages = [...this.state.messages];
+    const regex = new RegExp(this.state.searchTerm, 'gi'); // gi - flag to apply regex globally and case-insensitively
+    const searchResults = channelMessages.reduce((acc, channelMessage) => {
+      if (
+        (channelMessage.content && channelMessage.content.match(regex)) ||
+        channelMessage.user.name.match(regex)
+      ) {
+        acc.push(channelMessage);
+      }
+      return acc;
+    }, []);
+    this.setState({ searchResults });
   }
   
   render() {
-    const { messages, messagesRef, user, currentChannel, numUniqueUsers } = this.state;
+    const { messages, messagesRef, user, currentChannel, numUniqueUsers, searchTerm, searchResults } = this.state;
     return (
       <React.Fragment>
         <MessageHeader 
@@ -70,7 +84,7 @@ class Messages extends React.Component {
 
         <Segment>
           <Comment.Group className="messages">
-            {this.displayMessages(messages)}
+            {searchTerm ? this.displayMessages(searchResults) : this.displayMessages(messages)}
           </Comment.Group>
         </Segment>
 
