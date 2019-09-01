@@ -4,3 +4,37 @@ body,
   height: 100vh;
   background-color: #fff;
 }
+
+body ::-webkit-scrollbar-track {
+  background: #fff !important;
+  border-radius: 0;
+}
+
+body ::-webkit-scrollbar-thumb {
+  cursor: pointer;
+  border-radius: 5px;
+  background: #fff !important;
+  transition: color .2s ease;
+}
+
+.messages {
+  height: 440px;
+  overflow-y: scroll;
+  padding-left: 10px; 
+  padding-top: 5px;
+  box-sizing: content-box;
+}
+
+.message-form {
+  position: fixed !important;
+  margin-left: 320px !important;
+  bottom: 1em;
+  right: 0em;
+  left: 0;
+  z-index: 400;
+}
+
+.message-self {
+  border-left: 2px solid orange;
+  padding-left: 8px;
+}

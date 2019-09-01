@@ -2,9 +2,18 @@ import React from 'react';
 import { Menu, Icon, Modal, Form, Input, Button } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import firebase from '../../firebase';
+import { storeCurrentChannel } from '../../actions';
 
 class Channels extends React.Component {
-  state = { channels: [], modal: false, channelName: '', channelDescription: '', channelsRef: firebase.database().ref('channels') }
+  state = { 
+    channels: [], 
+    modal: false, 
+    channelName: '', 
+    channelDescription: '', 
+    channelsRef: firebase.database().ref('channels'), 
+    firstLoad: true,
+    activeChannel: '' 
+  }
   
   componentDidMount() {
     this.addListeners();
@@ -18,9 +27,18 @@ class Channels extends React.Component {
     let loadedChannels = [];
     this.state.channelsRef.on("child_added", snap => {
       loadedChannels.push(snap.val());
-      this.setState({ channels: loadedChannels });
+      this.setState({ channels: loadedChannels }, () => this.setFirstChannel());
     });
   };
+  
+  setFirstChannel = () => {
+    const { firstLoad, channels } = this.state;
+    let firstChannel = channels[0]
+    if (firstLoad && channels.length > 0) {
+      this.props.storeCurrentChannel(firstChannel);
+      this.setState({ activeChannel: firstChannel.id });
+    }
+  }
   
   removeListeners = () => {
     this.state.channelsRef.off();
@@ -78,9 +96,13 @@ class Channels extends React.Component {
             channels.map(channel => (
               <Menu.Item
                 key={channel.id}
-                onClick={() => console.log(channel)}
+                onClick={() => {
+                  this.setState({ activeChannel: channel.id })
+                  this.props.storeCurrentChannel(channel);
+                }}
                 name={channel.name}
                 style={{ opacity: 0.8 }}
+                active={channel.id === this.state.activeChannel}
               >
                 # {channel.name}
               </Menu.Item>
@@ -129,4 +151,6 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(Channels);
+export default connect(mapStateToProps, {
+  storeCurrentChannel
+})(Channels);

@@ -12,7 +12,10 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, user: action.payload, loading: false };
     case 'USER_CHECK_FAIL':
       return { ...state, loading: false, user: '' };
-      
+    
+    case 'STORE_USER':
+      return { ...state, user: action.payload };
+        
     default:
       return state;
   }

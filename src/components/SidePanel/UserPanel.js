@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import firebase from '../../firebase';
 
 class UserPanel extends React.Component {
+  state = { user: this.props.user }
   dropdownOptions = () => [
     {
       key: 'user',
-      text: <span>Signed in as <strong>{this.props.user.displayName}</strong></span>,
+      text: <span>Signed in as <strong>{this.state.user.displayName}</strong></span>,
       disabled: true
     },
     {
@@ -48,7 +49,7 @@ class UserPanel extends React.Component {
                 trigger={
                   <span>
                     <Image src={'https://avatars.slack-edge.com/2015-12-17/16957173431_30721f31797e3ebc8cde_512.png'} avatar spaced='right'/>
-                    {this.props.user.displayName}
+                    {this.state.user.displayName}
                   </span>} 
                 options={this.dropdownOptions()} 
               />

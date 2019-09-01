@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Header, Form, Segment, Button, Message, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { storeUser } from '../actions';
 import firebase from '../firebase';
 
 class Login extends Component {
@@ -18,7 +20,8 @@ class Login extends Component {
       event.preventDefault(); // prevents default actions of refreshing the browser
       this.setState({ loading: true, errors: [] });
       firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then(res => {
-        console.log(res);
+        console.log(res.user);
+        this.props.storeUser(res.user);
         this.setState({ loading: false, email: '', password: '' });
       }).catch(err => {
         console.log(err);
@@ -108,4 +111,6 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default connect(null, {
+  storeUser
+})(Login);

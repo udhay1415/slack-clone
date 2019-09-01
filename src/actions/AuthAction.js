@@ -16,3 +16,10 @@ export const userCheck = () => {
     })
   }
 }
+
+export const storeUser = (user) => {
+  return {
+    type: 'STORE_USER',
+    payload: user
+  }
+}

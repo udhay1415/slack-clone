@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Header, Form, Segment, Button, Message, Icon } from 'semantic-ui-react';
+import { storeUser } from '../actions';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import firebase from '../firebase';
 
@@ -19,6 +21,8 @@ class Signup extends Component {
       this.setState({ loading: true, errors: [] });
       // Create user
       firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password).then(res => {
+        console.log(res);
+        this.props.storeUser(res.user);
         // Add user - Update profile
         res.user.updateProfile({
           displayName: this.state.username,
@@ -159,4 +163,6 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default connect(null, {
+  storeUser
+})(Signup);
