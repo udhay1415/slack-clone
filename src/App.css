@@ -25,6 +25,10 @@ body ::-webkit-scrollbar-thumb {
   box-sizing: content-box;
 }
 
+.sidepanel {
+  overflow-y: scroll;
+}
+
 .message-form {
   position: fixed !important;
   margin-left: 320px !important;
