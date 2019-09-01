@@ -43,26 +43,20 @@ class MessageForm extends React.Component {
           value={message}
           onChange={this.handleChange}
           style={{ marginBottom: '0.8em' }}
-          label={<Button icon='add' />}
-          labelPosition="left"
+          label={
+            <Button
+              floated="right"
+              color="green"
+              onClick={this.sendMessage}
+              disabled={loading}
+              content="Send"
+            />
+          }
+          labelPosition="right"
           placeholder="Write your messages .."
         />
-        <Button.Group icon widths="2">
-          <Button
-            color="green"
-            onClick={this.sendMessage}
-            disabled={loading}
-            content="Add Reply"
-            labelPosition="left"
-            icon="edit"
-          />
-          <Button
-            color="teal"
-            content="Upload Media"
-            labelPosition="right"
-            icon="cloud upload"
-          />
-        </Button.Group>
+
+
       </Segment>
     )
   }

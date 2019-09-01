@@ -4,3 +4,10 @@ export const storeCurrentChannel = (channel) => {
     payload: channel
   }
 }
+
+export const setPrivateChannel = (value) => {
+  return {
+    type: 'SET_PRIVATE_CHANNEL',
+    payload: value
+  }
+}

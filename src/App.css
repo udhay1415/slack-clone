@@ -3,6 +3,7 @@ body,
 .app {
   height: 100vh;
   background-color: #fff;
+  font-family: 'Open Sans', sans-serif;
 }
 
 body ::-webkit-scrollbar-track {

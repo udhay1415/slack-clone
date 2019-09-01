@@ -84,6 +84,7 @@ class Messages extends React.Component {
           numUniqueUsers={numUniqueUsers}
           handleChange={this.handleChange}
           searchLoading={searchLoading}
+          isPrivateChannel={this.props.isPrivateChannel}
         />
 
         <Segment>
